@@ -1,2 +1,3 @@
 # here is tessieboat's site
-welcome ~
+a blog for tessie to post some thoughs
+welcome~
