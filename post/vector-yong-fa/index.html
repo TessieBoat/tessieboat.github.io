@@ -1,0 +1,183 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>priority_queue 用法 | TessieBoat</title>
+<meta name="description" content="享受学习的快乐" />
+<link rel="shortcut icon" href="https://tessieboat.github.io/favicon.ico?v=1689043125879">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tessieboat.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149289948-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149289948-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://tessieboat.github.io">
+  <img class="avatar" src="https://tessieboat.github.io/images/avatar.png?v=1689043125879" alt="">
+  </a>
+  <h1 class="site-title">
+    TessieBoat
+  </h1>
+  <p class="site-description">
+    享受学习的快乐
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              priority_queue 用法
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-10-13
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="1-头文件">1. 头文件</h3>
+<pre><code>#include &lt;queue&gt;
+</code></pre>
+<h3 id="2-声明">2. 声明</h3>
+<pre><code>priority_queue &lt;int&gt; Q;//定义一个从大到小队列叫做 “Q” 
+priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; Q;   //从小到大的队列 
+</code></pre>
+<h3 id="3-用法">3. 用法</h3>
+<pre><code>Q.top()   //输出第一位
+Q.pop();  //删除第一位
+Q.size()  //输出栈长度   
+Q.empty()  //输出是否为空（1或0）
+Q.push(x);  //把x输入进队列，并马上排序
+</code></pre>
+<h3 id="4-描述">4. 描述</h3>
+<p>排序的时间复杂度为O(nlogn)</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E5%A4%B4%E6%96%87%E4%BB%B6">1. 头文件</a></li>
+<li><a href="#2-%E5%A3%B0%E6%98%8E">2. 声明</a></li>
+<li><a href="#3-%E7%94%A8%E6%B3%95">3. 用法</a></li>
+<li><a href="#4-%E6%8F%8F%E8%BF%B0">4. 描述</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://tessieboat.github.io/post/zi-fu-chuan-jin-jie-stringyong-fa/">
+              <h3 class="post-title">
+                字符串进阶(string)用法
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://tessieboat.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,190 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>map的用法 | TessieBoat</title>
+<meta name="description" content="享受学习的快乐" />
+<link rel="shortcut icon" href="https://tessieboat.github.io/favicon.ico?v=1689043125879">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tessieboat.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149289948-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149289948-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://tessieboat.github.io">
+  <img class="avatar" src="https://tessieboat.github.io/images/avatar.png?v=1689043125879" alt="">
+  </a>
+  <h1 class="site-title">
+    TessieBoat
+  </h1>
+  <p class="site-description">
+    享受学习的快乐
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              map的用法
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-11-04
+              </span>
+              <span>
+                1 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="1-前言">1. 前言</h3>
+<p>啊，学hash之前我就觉得，一个单词，能不能这样存：</p>
+<figure data-type="image" tabindex="1"><a href="https://imgchr.com/i/KxPept"><img src="https://s2.ax1x.com/2019/11/04/KxPept.md.png" alt="KxPept.md.png" loading="lazy"></a></figure>
+<p>很显然，当然可以。<s>hash是什么我不知道</s></p>
+<p>但是呢，你会发现，这种100进制的方法，到5位就1亿了。<s>再多一位，再多一位，就会爆炸</s></p>
+<p>所以啊，有了这个简单且好用的map！</p>
+<p>它让我<s>这个C大爷都</s>很喜欢</p>
+<h3 id="2-头文件">2. 头文件</h3>
+<pre><code>#include &lt;map&gt;
+using namespace std;
+</code></pre>
+<p>非常简单！不解释</p>
+<h3 id="3-申请">3. 申请</h3>
+<pre><code>map&lt;string, int&gt; s; //申请一个名字为s的map
+</code></pre>
+<h3 id="4-使用">4. 使用</h3>
+<pre><code>char a[1000001];
+scanf(&quot;%s&quot;,a);
+s[a]=1;
+</code></pre>
+<p>这样就可以让a所对应的那个s的位置标记为1啦！</p>
+<p><s>非常简单有木有。</s></p>
+<p>后来我觉得博客写这么短不太合适，所以给大家丢一道题：<a href="https://www.luogu.org/problem/P1603">传送门</a></p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E5%89%8D%E8%A8%80">1. 前言</a></li>
+<li><a href="#2-%E5%A4%B4%E6%96%87%E4%BB%B6">2. 头文件</a></li>
+<li><a href="#3-%E7%94%B3%E8%AF%B7">3. 申请</a></li>
+<li><a href="#4-%E4%BD%BF%E7%94%A8">4. 使用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://tessieboat.github.io/post/vector-yong-fa/">
+              <h3 class="post-title">
+                priority_queue 用法
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://tessieboat.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

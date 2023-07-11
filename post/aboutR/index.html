@@ -1,0 +1,393 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>R语言学习笔记 | TessieBoat</title>
+<meta name="description" content="享受学习的快乐" />
+<link rel="shortcut icon" href="https://tessieboat.github.io/favicon.ico?v=1689043125879">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tessieboat.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149289948-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149289948-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://tessieboat.github.io">
+  <img class="avatar" src="https://tessieboat.github.io/images/avatar.png?v=1689043125879" alt="">
+  </a>
+  <h1 class="site-title">
+    TessieBoat
+  </h1>
+  <p class="site-description">
+    享受学习的快乐
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              R语言学习笔记
+            </h2>
+            <div class="post-info">
+              <span>
+                2022-09-08
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="从最简单的开始">从最简单的开始</h1>
+<h2 id="1你好世界">1.你好世界！</h2>
+<pre><code class="language-c">string = &quot;Hello World!&quot;
+print (string)
+</code></pre>
+<p>特别的是，赋值也可以使用<code>&lt;-</code>和<code>-&gt;</code>，同时，你可以连续赋值，如下：</p>
+<pre><code class="language-c">a = b = c = 6
+a &lt;- 6 -&gt; b -&gt;c
+</code></pre>
+<p>运行完代码可以发现，在Hello World的前面出现了字符<code>[1]</code>。为了应对单个向量的多个数据输出，R语言会使用换行，并在每行开头标上第一个数据是第多少个。</p>
+<p>对于需要多个结果拼接的输出，可使用<code>cat()</code>，并可以进行文件输出：</p>
+<pre><code class="language-c">cat(&quot;窝窝头&quot;,1,&quot;块钱&quot;,4,&quot;个&quot;,&quot;嘿嘿！！&quot;,file=&quot;&quot;)
+</code></pre>
+<p>追加文件写入需要再加一个append参数：</p>
+<pre><code class="language-c">cat(&quot;涨价了，现在一块钱一个&quot;,file=&quot;E:\\wowotou.txt&quot;,append=TRUE)
+</code></pre>
+<p>对于文件的输出，还可以使用sink()函数，这是一个类似于freopen的效果,使之后的输出都进入文件：</p>
+<pre><code class="language-py">sink(&quot;F:\\mihomo.txt&quot;)
+sink(&quot;F:\\mihomo.txt&quot;, split=TRUE) #保留控制台输出
+sink() #取消文件形式输出
+</code></pre>
+<h2 id="2变量与运算">2.变量与运算</h2>
+<p>恭喜你，在R语言里，你同样无需申明变量。需要注意的是，字符串既可以使用单引号，也可以使用双引号包裹。</p>
+<p>每一个变量都是一个可以包含多个数据的向量，你可以随时往里面塞进任何东西。一般使用<code>c()</code>表示向量。特别的，可以使用英文冒号表示几到几的数字。</p>
+<pre><code class="language-py">x1 = 1:5
+x1 = c(1,2,3,4,5)
+x1 = seq(1,5,length=5)
+y1 = rep(x1,times=1,length=10,each=2) # 双写x1！1122334455
+y1 = rep(x1,times=2,length=10,each=1) # 双倍x1！1234512345
+</code></pre>
+<p>值得一提的是，在R语言中有一些内置的常量可以引用：<code>LETTERS</code>大写字母，<code>letters</code>小写字母，<code>pi</code>值为3.141593，<code>month.name</code>12个月的英文名，<code>month.abb</code>12个月的英文名前三个字母缩写。</p>
+<p>在运算方面，加减乘除是对一个向量的所有数据进行批量操作。要注意一些运算的写法与主流语言不同：</p>
+<pre><code class="language-c">取模(mod)：%%
+整除：%/%
+幂运算：^或**
+或：|
+与：&amp;
+和第一个元素或：||
+和第一个元素或：&amp;&amp;
+</code></pre>
+<p>对场内变量进行查询或删除：</p>
+<pre><code class="language-py">print(ls()) #输出已定义的变量
+rm(homo) #删除homo变量
+</code></pre>
+<h2 id="3注释">3.注释</h2>
+<p>与python相同，#后面的均为注释。R语言中没有多行注释。</p>
+<h2 id="4条件语句">4.条件语句</h2>
+<p>与C语言完全相同：</p>
+<pre><code class="language-c">if(条件)
+{
+    #执行
+} 
+else 
+{
+    #执行
+}
+</code></pre>
+<p>为了偷懒，也可以使用<code>ifelse()</code>函数，也同样支持嵌套：</p>
+<pre><code class="language-c">ifelse(条件1,true执行,
+    ifelse(条件2,true执行,false执行))
+</code></pre>
+<h2 id="5循循循循循循环">5.循循循循循循环！</h2>
+<p>while的用法与C相同，表示如果()就重复执行。</p>
+<p>for的用法与python相同，大括号规则与C相同：</p>
+<pre><code class="language-py">for(i in 5)
+{
+    print(i)
+}
+</code></pre>
+<p><code>repeat</code> 循环等同于 <code>while(true)</code>，等待 <code>break</code> 指令退出循环。</p>
+<pre><code class="language-c">i=1
+repeat
+{
+    print(i)
+    i &lt;- i+1
+    if(i==6)
+    {
+        break
+    }
+}
+</code></pre>
+<h2 id="6列表矩阵">6.列表，矩阵</h2>
+<p>与python一样，例表中可以储存不同类型的向量，并可以用<code>names()</code>给每个元素命名并访问：</p>
+<pre><code class="language-py">need &lt;- list(&quot;窝窝头&quot;,c(1,2,3,4),&quot;块钱&quot;,c(4,8,12,16),&quot;个&quot;)
+names(need) &lt;- c(&quot;名字&quot;,&quot;价钱&quot;,&quot;文字&quot;,&quot;个数&quot;,&quot;文字&quot;)
+print(need[2])
+print(need$价钱)
+need[4] &lt;- &quot;先到先得&quot; #添加元素
+need[4] &lt;- NULL #删除元素
+</code></pre>
+<p>同时，还可以使用<code>c(list1,list2)</code>来合并列表，使用<code>unlist()</code>来让列表转换为向量。</p>
+<p>对于矩阵，R语言使用matrix()来创建：</p>
+<pre><code>matrix(data = 数据, nrow = 行数, ncol = 列数, byrow = 一个bool值，true为按行排列，否则为按列排列,dimnames = 行列名，输入一个两个向量组成的列表)
+</code></pre>
+<p>矩阵可以直接使用运算符进行运算，非常简单。</p>
+<pre><code>a = c(1,2,3,4,5,6)
+n = list(c(&quot;hang1&quot;,&quot;hang2&quot;),c(&quot;lie1&quot;,&quot;lie2&quot;,&quot;lie3&quot;))
+oo = matrix(a,2,3,byrow=TRUE,dimnames=n)
+print(oo)
+print(oo[1,2]) #第一行第二列
+print(oo[1,]) #第一行
+print(oo[,2]) #第二列
+</code></pre>
+<h2 id="7一些可能s用得到的包">7.一些可能s用得到的包</h2>
+<p>可以用于美化图形：</p>
+<pre><code class="language-py"># install CRAN packages
+install.packages(c(&quot;tidyverse&quot;, &quot;colorspace&quot;, &quot;corrr&quot;,  &quot;cowplot&quot;,
+                   &quot;ggdark&quot;, &quot;ggforce&quot;, &quot;ggrepel&quot;, &quot;ggridges&quot;, &quot;ggsci&quot;,
+                   &quot;ggtext&quot;, &quot;ggthemes&quot;, &quot;grid&quot;, &quot;gridExtra&quot;, &quot;patchwork&quot;,
+                   &quot;rcartocolor&quot;, &quot;scico&quot;, &quot;showtext&quot;, &quot;shiny&quot;,
+                   &quot;plotly&quot;, &quot;highcharter&quot;, &quot;echarts4r&quot;))
+
+# install from GitHub since not on CRAN
+install.packages(devtools)
+devtools::install_github(&quot;JohnCoene/charter&quot;)
+</code></pre>
+<h1 id="数学函数">数学函数</h1>
+<h2 id="1根号指数对数">1.根号，指数，对数</h2>
+<pre><code class="language-py">exp(i) #表示自然对数e的i次方
+sqrt(i) #表示i开二次根
+log10(i) #表示lgi
+log(i) #表示lni
+</code></pre>
+<p>那么就有<s>小朋友</s>要问了，开三次根怎么写呢？当然要使用另外一种表达方式了：</p>
+<pre><code class="language-py">x = i^(1/3)
+</code></pre>
+<h2 id="2四舍五入与取整">2.四舍五入与取整</h2>
+<p>这个简单，看一眼就懂。</p>
+<pre><code class="language-py">abs(-1.14514) #绝对值
+round(1.14514,2) #四舍五入到小数点第二位
+floor(1.14514) #向下取整
+ceiling(-1.14514) #向上取整
+trunc(-1.14514) #向0取整
+</code></pre>
+<h2 id="3三角函数">3.三角函数</h2>
+<p>需要注意，输入的是弧度值。</p>
+<pre><code class="language-py">sin(pi/3) #正弦
+cos(pi/3) #余弦
+tan(pi/3) #正切
+</code></pre>
+<p>反三角函数在前面加a即可：</p>
+<pre><code class="language-py">asin(pi/3) #反正弦
+acos(pi/3) #反余弦
+atan(pi/3) #反正切
+</code></pre>
+<h2 id="4正态分布和分位数函数">4.正态分布和分位数函数</h2>
+<pre><code class="language-py">pnorm(x) #标准正态分布函数
+dnorm(x) #标准正态分布密度
+qnorm(x) #标准正态分布分位数函数
+</code></pre>
+<p>标准正态分布函数：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">Φ</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msubsup><mo>∫</mo><mrow><mo>−</mo><mi mathvariant="normal">∞</mi></mrow><mi>x</mi></msubsup><mi>ϕ</mi><mo>(</mo><mi>t</mi><mo>)</mo><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">\Phi(x)=\int_{-\infty}^{x} \phi(t) d t</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Φ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.273443em;vertical-align:-0.41415100000000005em;"></span><span class="mop"><span class="mop op-symbol small-op" style="margin-right:0.19445em;position:relative;top:-0.0005599999999999772em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8592920000000001em;"><span style="top:-2.34418em;margin-left:-0.19445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">∞</span></span></span></span><span style="top:-3.2579000000000002em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.41415100000000005em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">ϕ</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span></span></span></span> ，标准正态分布密度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">∅</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi></mrow></msqrt></mfrac><msup><mi>e</mi><mrow><mo>−</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><msup><mi>x</mi><mn>2</mn></msup></mrow></msup></mrow><annotation encoding="application/x-tex">\emptyset(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}x^2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∅</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.5249199999999998em;vertical-align:-0.5379999999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.5510085em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord sqrt mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.912845em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mtight" style="padding-left:0.833em;"><span class="mord mtight">2</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">π</span></span></span><span style="top:-2.872845em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail mtight" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,
+-10,-9.5,-14c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54c44.2,-33.3,65.8,
+-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10s173,378,173,378c0.7,0,
+35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429c69,-144,104.5,-217.7,106.5,
+-221c5.3,-9.3,12,-14,20,-14H400000v40H845.2724s-225.272,467,-225.272,467
+s-235,486,-235,486c-2.7,4.7,-9,7,-19,7c-6,0,-10,-1,-12,-3s-194,-422,-194,-422
+s-65,47,-65,47z M834 80H400000v40H845z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.12715500000000002em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5379999999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.98692em;"><span style="top:-3.363em;margin-right:0.05em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight"><span class="mopen nulldelimiter sizing reset-size3 size6"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8443142857142858em;"><span style="top:-2.656em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.2255000000000003em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line mtight" style="border-bottom-width:0.049em;"></span></span><span style="top:-3.384em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.344em;"><span></span></span></span></span></span><span class="mclose nulldelimiter sizing reset-size3 size6"></span></span><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span> ，标准正态分布分位数函数（表示在相应概率时的值）：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msup><mi mathvariant="normal">Φ</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\Phi^{-1}(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord">Φ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span>。</p>
+<h1 id="作图时间">作图时间！</h1>
+<h2 id="1曲线函数">1.曲线函数</h2>
+<p>使用curve()函数来绘制曲线，范围为第二个参数到第三个参数。</p>
+<pre><code class="language-py">curve(sin(x),-pi,pi) #来一段三角函数
+abline(h=0) #添加参考线
+
+png(file = &quot;sin.jpg&quot;) #生成图片
+pdf(file = &quot;sin.jpg&quot;,1,1) #生成1：1的pdf文件
+</code></pre>
+<p>curve函数其实可以加入的参数很长：</p>
+<pre><code>curve(函数,from=起点,to=终点,n=一个整数，表示x取值数量,add=一个bool值，为真时将绘图加入到原来的图上,type=&quot;p&quot;为点，&quot;l&quot;为线，&quot;o&quot;为同时绘制点和线，且线穿过点,xname=x轴变量名称,xlim=两个数字组成的向量，表示x轴范围,ylim=y轴范围,xlab=x轴标签名称,ylab=y轴标签名称,main=主题名称)
+</code></pre>
+<p>还有plot也支持画图，除了前两个是xy向量（需保证长度相同），其余与curve函数参数相同：</p>
+<pre><code class="language-py"># 定义函数 f
+f = function (x) {
+    if (x &gt;= 0) {
+        x
+    } else {
+        x ^ 2
+    }
+}
+
+x = seq(-2, 2, length=100)# 生成自变量x
+y = rep(0, length(x))# 生成空的因变量y
+
+j = 1
+for (i in x) {
+    y[j] = f(i)
+    j = j + 1
+}# 赋值因变量y
+
+plot(x,y,type = &quot;l&quot;, col = &quot;red&quot;, xlab = &quot;x轴&quot;, ylab = &quot;y轴&quot;,main = &quot;分段函数&quot;)
+#画图
+</code></pre>
+<figure data-type="image" tabindex="1"><a href="https://imgloc.com/i/9VBVF"><img src="https://s1.328888.xyz/2022/09/09/9VBVF.png" alt="9VBVF.png" loading="lazy"></a></figure>
+<h2 id="2条形图">2.条形图</h2>
+<p>使用barplot()来绘制条形图，参数也很多，为了简单，就少写一点啦：</p>
+<pre><code>barplot(H=数据,xlab=x轴标签,ylab=y轴标签,main=主题,names.arg=每个柱子的标题,col=颜色)
+</code></pre>
+<pre><code class="language-py">agree = c(7,71,2222)
+flag = c(&quot;不同意&quot;,&quot;弃权&quot;,&quot;同意&quot;)
+co=c(&quot;#ED1C24&quot;,&quot;#BDBDBD&quot;,&quot;#22B14C&quot;)
+barplot(agree,ylim=c(0,2500),xlab=&quot;立场&quot;,ylab=&quot;人数&quot;,main=&quot;不同意的请举手&quot;,names.arg=flag,col=co)
+</code></pre>
+<figure data-type="image" tabindex="2"><a href="https://imgloc.com/i/9s4QI"><img src="https://s1.328888.xyz/2022/09/09/9s4QI.png" alt="9s4QI.png" loading="lazy"></a></figure>
+<h2 id="3饼状图">3.饼状图</h2>
+<p>使用pie()来绘制二维饼状图，pie3D()来绘制三维饼状图，参数也很多：</p>
+<pre><code>pie(x=数值, labels = 每个扇的名字, radius = 半径,clockwise = 一个bool值，表示是否切开, density =底纹密度, angle = 底纹斜率, col = 颜色, main = 标题)
+</code></pre>
+<pre><code class="language-py">shu=c(87,203,15)
+names=c(&quot;收到政府的蔬菜包&quot;,&quot;家里囤着有菜无需购买&quot;,&quot;正在网上购买&quot;)
+co=c(&quot;#47f5ac&quot;,&quot;#c8ffa6&quot;,&quot;#cdd6c7&quot;)
+pie(shu,labels=names,col=co,main=&quot;对上海市市民买菜的统计&quot;)
+</code></pre>
+<figure data-type="image" tabindex="3"><a href="https://imgloc.com/i/9sBim"><img src="https://s1.328888.xyz/2022/09/09/9sBim.png" alt="9sBim.png" loading="lazy"></a></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%BB%8E%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84%E5%BC%80%E5%A7%8B">从最简单的开始</a>
+<ul>
+<li><a href="#1%E4%BD%A0%E5%A5%BD%E4%B8%96%E7%95%8C">1.你好世界！</a></li>
+<li><a href="#2%E5%8F%98%E9%87%8F%E4%B8%8E%E8%BF%90%E7%AE%97">2.变量与运算</a></li>
+<li><a href="#3%E6%B3%A8%E9%87%8A">3.注释</a></li>
+<li><a href="#4%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5">4.条件语句</a></li>
+<li><a href="#5%E5%BE%AA%E5%BE%AA%E5%BE%AA%E5%BE%AA%E5%BE%AA%E5%BE%AA%E7%8E%AF">5.循循循循循循环！</a></li>
+<li><a href="#6%E5%88%97%E8%A1%A8%E7%9F%A9%E9%98%B5">6.列表，矩阵</a></li>
+<li><a href="#7%E4%B8%80%E4%BA%9B%E5%8F%AF%E8%83%BDs%E7%94%A8%E5%BE%97%E5%88%B0%E7%9A%84%E5%8C%85">7.一些可能s用得到的包</a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0">数学函数</a>
+<ul>
+<li><a href="#1%E6%A0%B9%E5%8F%B7%E6%8C%87%E6%95%B0%E5%AF%B9%E6%95%B0">1.根号，指数，对数</a></li>
+<li><a href="#2%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5%E4%B8%8E%E5%8F%96%E6%95%B4">2.四舍五入与取整</a></li>
+<li><a href="#3%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0">3.三角函数</a></li>
+<li><a href="#4%E6%AD%A3%E6%80%81%E5%88%86%E5%B8%83%E5%92%8C%E5%88%86%E4%BD%8D%E6%95%B0%E5%87%BD%E6%95%B0">4.正态分布和分位数函数</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BD%9C%E5%9B%BE%E6%97%B6%E9%97%B4">作图时间！</a>
+<ul>
+<li><a href="#1%E6%9B%B2%E7%BA%BF%E5%87%BD%E6%95%B0">1.曲线函数</a></li>
+<li><a href="#2%E6%9D%A1%E5%BD%A2%E5%9B%BE">2.条形图</a></li>
+<li><a href="#3%E9%A5%BC%E7%8A%B6%E5%9B%BE">3.饼状图</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://tessieboat.github.io/post/XJTLUlink/">
+              <h3 class="post-title">
+                关于XJTLU的一些导航站
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://tessieboat.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

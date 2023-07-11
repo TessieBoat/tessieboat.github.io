@@ -1,0 +1,455 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>线段树学习笔记 | TessieBoat</title>
+<meta name="description" content="享受学习的快乐" />
+<link rel="shortcut icon" href="https://tessieboat.github.io/favicon.ico?v=1689043125879">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tessieboat.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149289948-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149289948-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://tessieboat.github.io">
+  <img class="avatar" src="https://tessieboat.github.io/images/avatar.png?v=1689043125879" alt="">
+  </a>
+  <h1 class="site-title">
+    TessieBoat
+  </h1>
+  <p class="site-description">
+    享受学习的快乐
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              线段树学习笔记
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-11-11
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h3 id="1-原理">1. 原理</h3>
+<p>线段树是啥呢？</p>
+<figure data-type="image" tabindex="1"><img src="https://s2.ax1x.com/2019/11/12/M14rgU.jpg" alt="M14rgU.jpg" loading="lazy"></figure>
+<p>如图，就是一个数组的线段树。<s>所以，线段树的前提是要有一个原数组。</s></p>
+<p>假如，我想让你求数组中的区间和。那么肯定就有巨佬出现了：</p>
+<figure data-type="image" tabindex="2"><img src="https://s2.ax1x.com/2019/11/12/M3CBwR.png" alt="M3CBwR.png" loading="lazy"></figure>
+<p>呃……（空气安静3秒钟）</p>
+<p>好吧，我们求区间最大值。<s>这样，就能让这位巨佬哑口无言。</s></p>
+<p>我们把数组分成多个段，就像上面的图，1-n 可以分为 1 - n/2 和 n/2+1 - n两个区域，然后又可以分为四个区域……所以呢，这是一个二叉树。只要我们最后分下去的区间已经分不下去了，只剩一个点了，那么就可以结束了。</p>
+<figure data-type="image" tabindex="3"><img src="https://s2.ax1x.com/2019/11/12/M17dpt.png" alt="M17dpt.png" loading="lazy"></figure>
+<p>如图，就是一个对于a数组的线段树。同一个颜色的是同一层。因为我们肯定没有2.5这种东西，所以我们需要取整，导致看起来不对称。</p>
+<h3 id="2-建树">2. 建树</h3>
+<p>我们需要很多变量，我们慢慢来。</p>
+<p>首先，我们先说明，每个节点的左儿子编号为2n，右儿子为2n+1。</p>
+<p>以下，是我们需要的数组</p>
+<pre><code class="language-cpp">int zhi[10001];//原数组 
+int fak[10001];//线段树数组 
+int qu_l[10001];//维护的区间 左范围 
+int qu_r[10001];//维护的区间 右范围 
+</code></pre>
+<p>原数组的输入我就不讲了，<strong>如果你真的不知道</strong>，我建议你看这个：<a href="https://www.bilibili.com/bangumi/media/md140632/?from=search&amp;seid=10835973984877149679">传送门</a></p>
+<pre><code class="language-cpp">void in(int l,int r,int hao)//左范围，右范围，编号 
+{
+	if(l==r)
+	{
+		fak[hao]=zhi[l];
+		return ;
+	}
+	
+	in(l,(l+r)/2,hao*2);
+	in((l+r)/2+1,r,hao*2+1);
+	
+	fak[hao]=max(fak[hao*2],fak[hao*2+1]); 
+	return ;
+}
+</code></pre>
+<p>我们通过</p>
+<pre><code class="language-cpp">in(1,n,1);
+</code></pre>
+<p>就可以让它建树啦！但是呢，我们还需要让它存下对应节点所维护的区间。所以，我们需要加上一些代码。</p>
+<pre><code class="language-cpp">void in(int l,int r,int hao)//左，右，编号 
+{
+	if(l==r)
+	{
+		qu_l[hao]=l;
+		qu_r[hao]=r;//忘记记录害死猫 
+		fak[hao]=zhi[l];
+		return ;
+	}
+	
+	in(l,(l+r)/2,hao*2);
+	in((l+r)/2+1,r,hao*2+1);
+	
+	fak[hao]=max(fak[hao*2],fak[hao*2+1]); 
+	
+	qu_l[hao]=l;
+	qu_r[hao]=r;//记录其维护的区间 
+	return ;
+}
+
+</code></pre>
+<h3 id="3-单点修改">3. 单点修改</h3>
+<p>如果我们要修改某些点的话，假如我们改第二个为5</p>
+<figure data-type="image" tabindex="4"><img src="https://s2.ax1x.com/2019/11/12/M1qbNQ.png" alt="M1qbNQ.png" loading="lazy"></figure>
+<p>只要包含这个点的，都需要修改。</p>
+<pre><code class="language-cpp">void fix(int hao,int h,int zhi)//线段树所在编号  单点修改需要的编号   修改的值 
+{
+	if(qu_r[hao]==0 || qu_l[hao]==0)
+	{
+		return ;
+	}
+	if(qu_l[hao]==h &amp;&amp; qu_r[hao]==h) 
+	{
+		fak[hao]=zhi;
+		return ;
+	}
+	if(qu_l[hao]&lt;=h &amp;&amp; h&lt;=qu_r[hao])
+	{
+		fix(hao*2,h,zhi);
+		fix(hao*2+1,h,zhi);
+		fak[hao]=max(fak[hao],zhi); 
+		return ;
+	}
+	else
+	{
+		return ;
+	}
+} 
+</code></pre>
+<p>我们只需要</p>
+<pre><code>fix(1,[改变的位置],[改变的值]);
+</code></pre>
+<p>就完事了。</p>
+<h3 id="4-区间查询">4. 区间查询</h3>
+<p>说了这么多，这个树依然没有体现出它巨大的作用。</p>
+<p>那么，我们来输出区间最大值吧。我们继续用老图。</p>
+<figure data-type="image" tabindex="5"><img src="https://s2.ax1x.com/2019/11/12/M3uMOx.png" alt="M3uMOx.png" loading="lazy"></figure>
+<p>如果全包含，那么我们就<strong>分三种情况</strong>（我在这里被坑死了）</p>
+<p>如果这个区间被左区间全包含，则走左边。</p>
+<p>如果这个区间被右区间全包含，则走右边。</p>
+<p>如果这个区间被两个区间都包含一些，那么切成两段求max。</p>
+<pre><code class="language-cpp">int find(int l,int r,int hao)
+{
+	if(l&gt;r)
+	{
+		return 0;
+	}
+	if(qu_l[hao]&lt;=l &amp;&amp; r&lt;=qu_r[hao])
+	{
+		if(qu_l[hao]==l &amp;&amp; r==qu_r[hao])
+		{
+			return fak[hao];
+		}
+		else
+		{
+			if(qu_l[hao]==qu_r[hao])
+			{
+				return fak[hao];
+			}
+			else
+			{
+				if(qu_l[hao*2]&lt;=l &amp;&amp; r&lt;=qu_r[hao*2])
+				{
+					return find(l,r,hao*2);
+				}
+				if(qu_l[hao*2+1]&lt;=l &amp;&amp; r&lt;=qu_r[hao*2+1])
+				{
+					return find(l,r,hao*2+1);
+				}
+				
+				return max(find(l,qu_r[hao*2],hao*2),find(qu_l[hao*2+1],r,hao*2+1));
+			}
+		}
+	}
+	else
+	{
+		return 0;
+	}
+} 
+</code></pre>
+<p>如果我们要求o到oo的最大值，那么</p>
+<pre><code class="language-cpp">find(o,oo,1)
+</code></pre>
+<p>就是它的值。</p>
+<h3 id="5-完成代码">5. 完成代码</h3>
+<p><strong>输入格式：</strong></p>
+<p>先输入一个n，然后以后n个数输入原数组的值。</p>
+<p>然后输入o，然后o行输入两个数oo，ooo，表示把oo位的数修改为ooo。</p>
+<p>然后输入p，然后p行输入两个数pp，ppp，表示需要输出pp到ppp的最大值。</p>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+int zhi[10001];//原数组 
+
+int fak[10001];//线段树数组 
+int fa[10001];//父亲节点 未使用 // 
+int left[10001];//左儿子编号 未使用 // 
+int qu_l[10001];//维护的区间 左范围   
+int right[10001]; //右儿子编号  未使用 // 
+int qu_r[10001];//维护的区间 右范围 
+
+int max(int o,int p)
+{
+	if(o&gt;=p)
+	{
+		return o;
+	}
+	else
+	{
+		return p;
+	}
+}
+
+
+void in(int l,int r,int hao)//左，右，编号 
+{
+	if(l==r)
+	{
+		qu_l[hao]=l;
+		qu_r[hao]=r;//忘记记录害死猫 
+		fak[hao]=zhi[l];
+		return ;
+	}
+	
+	in(l,(l+r)/2,hao*2);
+	in((l+r)/2+1,r,hao*2+1);
+	
+	fak[hao]=max(fak[hao*2],fak[hao*2+1]); 
+	
+	qu_l[hao]=l;
+	qu_r[hao]=r;//记录其维护的区间 
+	return ;
+}
+
+void fix(int hao,int h,int zhi)//线段树所在编号  单点修改需要的编号   修改的值 
+{
+	if(qu_r[hao]==0 || qu_l[hao]==0)
+	{
+		return ;
+	}
+	if(qu_l[hao]==h &amp;&amp; qu_r[hao]==h) 
+	{
+		fak[hao]=zhi;
+		return ;
+	}
+	if(qu_l[hao]&lt;=h &amp;&amp; h&lt;=qu_r[hao])
+	{
+		fix(hao*2,h,zhi);
+		fix(hao*2+1,h,zhi);
+		fak[hao]=max(fak[hao],zhi); 
+		return ;
+	}
+	else
+	{
+		return ;
+	}
+} 
+int find(int l,int r,int hao)
+{
+	if(l&gt;r)
+	{
+		return 0;
+	}
+	if(qu_l[hao]&lt;=l &amp;&amp; r&lt;=qu_r[hao])
+	{
+		if(qu_l[hao]==l &amp;&amp; r==qu_r[hao])
+		{
+			return fak[hao];
+		}
+		else
+		{
+			if(qu_l[hao]==qu_r[hao])
+			{
+				return fak[hao];
+			}
+			else
+			{
+				if(qu_l[hao*2]&lt;=l &amp;&amp; r&lt;=qu_r[hao*2])
+				{
+					return find(l,r,hao*2);
+				}
+				if(qu_l[hao*2+1]&lt;=l &amp;&amp; r&lt;=qu_r[hao*2+1])
+				{
+					return find(l,r,hao*2+1);
+				}
+				
+				return max(find(l,qu_r[hao*2],hao*2),find(qu_l[hao*2+1],r,hao*2+1));
+			}
+		}
+	}
+	else
+	{
+		return 0;
+	}
+} 
+int main()
+{
+	int n;
+	scanf(&quot;%d&quot;,&amp;n);
+	for(int i=1;i&lt;=n;i++)
+	{
+		scanf(&quot;%d&quot;,&amp;zhi[i]);
+	}
+	
+	in(1,n,1); 
+	
+	int ooo;
+	scanf(&quot;%d&quot;,&amp;ooo);
+	for(int i=1;i&lt;=ooo;i++)
+	{
+		int o,oo;
+		scanf(&quot;%d %d&quot;,&amp;o,&amp;oo);
+		fix(1,o,oo);
+	} 
+	
+	scanf(&quot;%d&quot;,&amp;ooo);
+	for(int i=1;i&lt;=ooo;i++)
+	{
+		int o,oo;
+		scanf(&quot;%d %d&quot;,&amp;o,&amp;oo);
+		printf(&quot;%d\n&quot;,find(o,oo,1));
+	} 
+	
+	return 0;
+} 
+</code></pre>
+<h3 id="6-其他问题">6. 其他问题</h3>
+<p>如果想要区间修改等事项，请学习可持久化线段树。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E5%8E%9F%E7%90%86">1. 原理</a></li>
+<li><a href="#2-%E5%BB%BA%E6%A0%91">2. 建树</a></li>
+<li><a href="#3-%E5%8D%95%E7%82%B9%E4%BF%AE%E6%94%B9">3. 单点修改</a></li>
+<li><a href="#4-%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2">4. 区间查询</a></li>
+<li><a href="#5-%E5%AE%8C%E6%88%90%E4%BB%A3%E7%A0%81">5. 完成代码</a></li>
+<li><a href="#6-%E5%85%B6%E4%BB%96%E9%97%AE%E9%A2%98">6. 其他问题</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://tessieboat.github.io/post/gao-si-xiao-yuan-xue-xi-bi-ji/">
+              <h3 class="post-title">
+                高斯消元学习笔记
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://tessieboat.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>

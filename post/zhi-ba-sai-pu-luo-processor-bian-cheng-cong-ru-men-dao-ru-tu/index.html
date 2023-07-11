@@ -1,0 +1,258 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>制霸塞普罗！Processor编程从入门到入土 | TessieBoat</title>
+<meta name="description" content="享受学习的快乐" />
+<link rel="shortcut icon" href="https://tessieboat.github.io/favicon.ico?v=1689043125879">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://tessieboat.github.io/styles/main.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149289948-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-149289948-1');
+</script>
+
+
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://tessieboat.github.io">
+  <img class="avatar" src="https://tessieboat.github.io/images/avatar.png?v=1689043125879" alt="">
+  </a>
+  <h1 class="site-title">
+    TessieBoat
+  </h1>
+  <p class="site-description">
+    享受学习的快乐
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              制霸塞普罗！Processor编程从入门到入土
+            </h2>
+            <div class="post-info">
+              <span>
+                2023-01-03
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <h1 id="你好世界">你好世界！</h1>
+<p>作为一门编程语言学习的第一步，让我们也从输出“Hello World!”开始吧~</p>
+<p>我们先从输出纯文本信息开始，请确保信息板在逻辑块的控制范围内并已被标记为<code>message1</code>。（点击逻辑块，再点击信息板即可）</p>
+<figure data-type="image" tabindex="1"><img src="https://s3.bmp.ovh/imgs/2023/02/21/969569cd67716203.png" alt="" loading="lazy"></figure>
+<p>需要注意，逻辑块中需要<strong>先将输出内容使用</strong><code>Print</code><strong>指令将输出加入缓存，再使用</strong><code>Print Flush</code><strong>将内容输出</strong>。</p>
+<pre><code>Print
+    &quot;Hello World!&quot;
+Print Flush 
+    to message1
+</code></pre>
+<p>这样我们就完成了输出Hello World！</p>
+<h1 id="获取数据">获取数据！</h1>
+<p>好，让我们来介绍一下如何获取单位的数据，我们需要用到<code>Sensor</code>指令，比如我们需要获取核心<strong>nucleus1</strong>里铜的含量，就应该这样写：</p>
+<pre><code>Sensor 
+    CuNum = @copper in nucleus1
+</code></pre>
+<p>需要注意，和Python一样，我们这里的变量赋值即定义，无需提前声明。（允许中文变量名）另外，处理器会<strong>不断按顺序重复执行</strong>给出指令而非只运行一次。</p>
+<p>之后，我们使用<code>Print</code>指令将铜的数量输出即可。对于<code>Print</code>指令，如果包含双引号，则输出引号中的字符串；否则，输出对应变量的值。</p>
+<p>那么我们输出核心中铜数量的代码是：</p>
+<pre><code>Sensor 
+    CuNum = @copper in nucleus1
+Print
+    &quot;铜=&quot;
+Print
+    CuNum
+Print Flush 
+    to message1
+</code></pre>
+<p>运行结果：<br>
+<img src="https://s3.bmp.ovh/imgs/2023/02/21/87da8d2464d2485d.png" alt="" loading="lazy"></p>
+<p>当然，<code>Sensor</code>指令可以获取的数据有<strong>很多</strong>，你可以获取<strong>单位目前的状态</strong>，<strong>贮备的物品或液体数量</strong>，亦或是<strong>单位的建造进度</strong>。比如，你可以使用<code>@powerNetIn</code>与<code>@powerNetOut</code>来监控一个工厂的电量是否出现了问题。</p>
+<h1 id="你先别急">你先别急</h1>
+<p>唔……前面的内容只是让你快速上手而已。我们的<strong>基础内容铺垫</strong>尚未完成——</p>
+<h2 id="控制顺序">控制顺序</h2>
+<p><code>End</code>指令：停止本轮循环，从头开始运行。</p>
+<p><code>Stop</code>指令：停止本处理器运行。</p>
+<p><code>Wait</code>指令：停顿相应秒数。</p>
+<pre><code>Wait
+    0.5 sec
+</code></pre>
+<p><code>Jump</code>指令：经过条件判断后，选择是否跳转至命令第几行。</p>
+<pre><code>Jump -&gt; 4
+    if NumCu == 1
+</code></pre>
+<p>你应该可以在代码行中看到，<code>Jump</code>指令的if判断有多种关系，比如大于小于。</p>
+<p>特别的是,<code>not</code>为<strong>不相等</strong>，等同于C系列语言中的<code>!=</code>。</p>
+<p>另外，使用<strong>相等</strong><code>==</code>时，查询失败的变量会被标记为<code>null</code>，比较数值时会将值定为<code>0</code>；如果变量不是数字，而在与数字比较时，会将值定为<code>1</code>。你可以使用<strong>严格相等</strong><code>===</code>来避免数据的强制转换。（这么做的唯一用处是检查<code>null</code>对象）</p>
+<h2 id="数值更改">数值更改</h2>
+<p>对于变量的数据更改，需要使用<code>Operation</code>指令来完成（而不是在判断语句中直接进行），你可以在程序块中看到多种数据操作。</p>
+<p>需要说明的是，<code>floor</code>参数是指向下取整，<code>ceil</code>参数是指向上取整。</p>
+<pre><code>Operation
+    Power = PowerIn - PowerOut
+</code></pre>
+<h2 id="单位更名">单位更名</h2>
+<p>这时候就有<s>可爱的小伙伴</s>要问了，如果处理的单位过多，打全名是不是过于复杂？有没有更改单位标记或者映射到单位的变量呢？当然，它就是<code>Get Link</code>指令！</p>
+<pre><code>Get Link
+    Centre = link #1
+</code></pre>
+<p>比如这里，我们就将第二个标记（<code>#0</code>是第一个）的单位生成了导向它的变量<code>Centre</code>。</p>
+<p>对于一个控制器接管的节点数量，可以用变量<code>@link</code>获取。</p>
+<h2 id="彩色的告示牌">彩色的告示牌</h2>
+<p>我们可以在<code>Print</code>指令的字符串中加入<code>[color]</code>进行染色，比如<code>[red]</code>，没有染色指令颜色默认为<code>[white]</code>。染色指令在<code>Print</code>缓存中会对所有后面的字符有效，类似Minecraft基岩版中的<code>§4</code>。</p>
+<h1 id="控制方块">控制方块！</h1>
+<p>来到我们的核心环节，控制建筑的指令——<code>Control</code>指令！</p>
+<h2 id="建筑物开关">建筑物开关</h2>
+<p>我们为单位<code>enabled</code>赋值为0时，建筑单位关闭；否则，单位开启：</p>
+<pre><code>Control
+    set enabled Unit01 to 0.2
+</code></pre>
+<p>比如，这里我们就将变量<code>Unit01</code>导向的建筑单位打开了。</p>
+<h2 id="小试身手">小试身手</h2>
+<p>现在我们来完成一下多个<strong>钍反应堆</strong>在无冷却液的情况下控制自动停转，且能在冷却液恢复时自动开启的代码。</p>
+<pre><code>Get Link
+    generator = link #i
+Sensor
+    water = @cryofluid in generator
+Operation
+    flag = water &gt; 20
+Control
+    set enabled of generatoe to flag
+Operation 
+    i = i + 1
+Operation
+    i = i % @links
+</code></pre>
+<p>我们用变量<code>i</code>的不断循环来反复扫描所有受逻辑块覆盖的反应堆，检测是否持有足够的冷却液，在不足时关闭，反之则打开。</p>
+<figure data-type="image" tabindex="2"><img src="https://s1.ax1x.com/2023/07/03/pCr1Nzd.png" alt="" loading="lazy"></figure>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#%E4%BD%A0%E5%A5%BD%E4%B8%96%E7%95%8C">你好世界！</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE">获取数据！</a></li>
+<li><a href="#%E4%BD%A0%E5%85%88%E5%88%AB%E6%80%A5">你先别急</a>
+<ul>
+<li><a href="#%E6%8E%A7%E5%88%B6%E9%A1%BA%E5%BA%8F">控制顺序</a></li>
+<li><a href="#%E6%95%B0%E5%80%BC%E6%9B%B4%E6%94%B9">数值更改</a></li>
+<li><a href="#%E5%8D%95%E4%BD%8D%E6%9B%B4%E5%90%8D">单位更名</a></li>
+<li><a href="#%E5%BD%A9%E8%89%B2%E7%9A%84%E5%91%8A%E7%A4%BA%E7%89%8C">彩色的告示牌</a></li>
+</ul>
+</li>
+<li><a href="#%E6%8E%A7%E5%88%B6%E6%96%B9%E5%9D%97">控制方块！</a>
+<ul>
+<li><a href="#%E5%BB%BA%E7%AD%91%E7%89%A9%E5%BC%80%E5%85%B3">建筑物开关</a></li>
+<li><a href="#%E5%B0%8F%E8%AF%95%E8%BA%AB%E6%89%8B">小试身手</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://tessieboat.github.io/post/he-kong-jian-kong-jian-yu-ji-xiang-liang/">
+              <h3 class="post-title">
+                核空间：空间与基向量
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://tessieboat.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
+
+</script>
+
+      </div>
+    </div>
+  </body>
+</html>
